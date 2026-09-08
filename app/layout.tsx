@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Bodoni_Moda, Source_Serif_4, IBM_Plex_Sans } from "next/font/google";
+// @ts-expect-error The global stylesheet is provided by the Next.js app runtime.
 import "./globals.css";
 
 const display = Bodoni_Moda({
@@ -21,12 +22,12 @@ const ui = IBM_Plex_Sans({
 });
 
 export const metadata: Metadata = {
-  title: "Alex Chen — Product Designer",
+  title: "Ridoy Mojumder — Frontend & Framer Developer",
   description:
-    "Selected work in product design, brand systems, and editorial interfaces. Based in San Francisco.",
+    "Frontend & Framer Developer building modern, responsive websites with React, Next.js, Tailwind, and Laravel. Based in Dhaka, Bangladesh.",
   openGraph: {
-    title: "Alex Chen — Product Designer",
-    description: "A one-page folio of product, brand, and editorial design.",
+    title: "Ridoy Mojumder — Frontend & Framer Developer",
+    description: "A one-page folio of Framer templates, frontend work, and Laravel projects.",
     type: "website",
   },
 };
@@ -34,7 +35,7 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en" className={`${display.variable} ${body.variable} ${ui.variable}`}>
-      <body>{children}</body>
+      <body suppressHydrationWarning>{children}</body>
     </html>
   );
 }

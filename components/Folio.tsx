@@ -1,6 +1,7 @@
 "use client";
 
-import { FormEvent, useEffect, useState } from "react";
+import Image from "next/image";
+import { FormEvent, useEffect, useRef, useState } from "react";
 
 const SECTIONS = [
   { id: "top", label: "Cover" },
@@ -15,7 +16,7 @@ const PROJECTS = [
     year: "2026",
     title: "Shridurga",
     blurb:
-      "A Laravel-built website � backend logic, database-driven features, and a polished presentation site.",
+      "A Laravel-built website - backend logic, database-driven features, and a polished presentation site.",
     tags: ["Laravel", "PHP"],
     href: "https://shridurga.org/",
   },
@@ -23,7 +24,7 @@ const PROJECTS = [
     year: "2025",
     title: "Dashcode",
     blurb:
-      "Next.js + Laravel dashboard � REST API integration, dynamic data handling, and responsive SaaS UI.",
+      "Next.js + Laravel dashboard - REST API integration, dynamic data handling, and responsive SaaS UI.",
     tags: ["Next.js", "Laravel"],
     href: "https://dashcode-react.codeshaper.net/dashboard",
   },
@@ -31,7 +32,7 @@ const PROJECTS = [
     year: "2025",
     title: "Dashtail",
     blurb:
-      "React redesign of a modern dashboard � component-based UI, clean routes, and responsive layout.",
+      "React redesign of a modern dashboard - component-based UI, clean routes, and responsive layout.",
     tags: ["React", "Tailwind"],
     href: "https://dash-tail.vercel.app/en/dashboard",
   },
@@ -39,7 +40,7 @@ const PROJECTS = [
     year: "2025",
     title: "TOIN Park",
     blurb:
-      "A Next.js project � modern frontend architecture with clean, scalable code.",
+      "A Next.js project - modern frontend architecture with clean, scalable code.",
     tags: ["Next.js"],
     href: "#",
   },
@@ -49,7 +50,7 @@ const SKILLS = [
   {
     index: "01",
     title: "Frontend",
-    copy: "HTML, CSS, JavaScript, TypeScript, React.js, Next.js, and Tailwind CSS � translating designs into accurate, responsive, production-ready interfaces.",
+    copy: "HTML, CSS, JavaScript, TypeScript, React.js, Next.js, and Tailwind CSS - translating designs into accurate, responsive, production-ready interfaces.",
   },
   {
     index: "02",
@@ -59,7 +60,7 @@ const SKILLS = [
   {
     index: "03",
     title: "Backend",
-    copy: "Laravel and PHP � building backend logic, database-driven features, dynamic web applications, and REST API integration.",
+    copy: "Laravel and PHP - building backend logic, database-driven features, dynamic web applications, and REST API integration.",
   },
   {
     index: "04",
@@ -67,6 +68,47 @@ const SKILLS = [
     copy: "Figma, Git, GitHub, component-based development, and modern frontend workflows with a strong eye for visual hierarchy and spacing.",
   },
 ];
+
+function Counter({ value, suffix = "" }: { value: number; suffix?: string }) {
+  const [count, setCount] = useState(0);
+  const counterRef = useRef<HTMLElement>(null);
+
+  useEffect(() => {
+    const element = counterRef.current;
+    if (!element) return;
+
+    let frame = 0;
+    let started = false;
+    const observer = new IntersectionObserver(([entry]) => {
+      if (!entry.isIntersecting || started) return;
+      started = true;
+      const startTime = performance.now();
+      const duration = 1100;
+
+      const animate = (time: number) => {
+        const progress = Math.min((time - startTime) / duration, 1);
+        const eased = 1 - Math.pow(1 - progress, 3);
+        setCount(Math.round(value * eased));
+        if (progress < 1) frame = requestAnimationFrame(animate);
+      };
+
+      frame = requestAnimationFrame(animate);
+      observer.disconnect();
+    }, { threshold: 0.4 });
+
+    observer.observe(element);
+    return () => {
+      observer.disconnect();
+      cancelAnimationFrame(frame);
+    };
+  }, [value]);
+
+  return (
+    <dt ref={counterRef} aria-label={`${value}${suffix}`}>
+      {count}{suffix}
+    </dt>
+  );
+}
 
 export function Folio() {
   const [current, setCurrent] = useState("top");
@@ -123,26 +165,25 @@ export function Folio() {
         <a className="seal" href="#top" aria-label="Ridoy Mojumder, back to cover">
           RM
         </a>
-        <nav className="contents issue-meta" style={{"display": "contents", "flexDirection": "column", "gap": "1rem"}}>
+        <nav className="contents issue-meta" style={{"display": "contents"}}>
           {SECTIONS.map((section) => (
             <a
               key={section.id}
               href={`#${section.id}`}
               aria-current={current === section.id ? "true" : undefined}
-              style={{"textDecoration": current === section.id ? "underline" : "none"}}
             >
               {section.label}
             </a>
           ))}
         </nav>
-        <p className="issue-meta">Vol. 04 � Autumn 2026</p>
+        <p className="issue-meta">Vol. 04 - Autumn 2026</p>
       </aside>
 
       <main className="frame">
-        {/* ��� Hero ��� */}
+        {/* Hero */}
         <header className="hero" id="top">
           <div className="hero-rule">
-            <span>Frontend � Framer � Laravel</span>
+            <span>Frontend - Framer - Laravel</span>
             <span>Dhaka, Bangladesh</span>
             <span>Available for projects</span>
           </div>
@@ -158,8 +199,8 @@ export function Folio() {
           <div className="hero-bottom">
             <div>
               <p className="lede">
-                Frontend &amp; Framer developer with 1.5+ years building modern,
-                responsive, visually polished websites � from Framer templates
+                Frontend &amp; Framer developer with 2+ years building modern,
+                responsive, visually polished websites - from Framer templates
                 to React, Next.js, and Laravel backend work.
               </p>
               <a className="hero-cta" href="#work">
@@ -167,27 +208,34 @@ export function Folio() {
               </a>
             </div>
             <div className="hero-meta">
-              <span>Frontend � Framer � Laravel</span>
-              <span>B.Sc. CSE, BUBT � CGPA 3.73 / 4.00</span>
+              <span>Frontend - Framer - Laravel</span>
+              <span>B.Sc. CSE, BUBT - CGPA 3.73 / 4.00</span>
               <span>Seeking study in Italy</span>
               <span>hridoymoju463@gmail.com</span>
             </div>
           </div>
         </header>
 
-        {/* ��� About ��� */}
+        {/* About */}
         <section className="section" id="about">
           <div className="section-head reveal">
             <p className="kicker">About the developer</p>
-            <p className="folio">pp. 04�05</p>
+            <p className="folio">pp. 04-05</p>
           </div>
           <div className="about-grid reveal">
             <div className="portrait-frame">
-              <div className="portrait" role="img" aria-label="Portrait placeholder" />
+              <Image
+                className="portrait"
+                src="/Ridoy.png"
+                alt="Portrait of Ridoy Mojumder"
+                width={800}
+                height={1200}
+                priority
+              />
             </div>
             <div className="about-copy">
               <p>
-                Frontend &amp; Framer developer with 1.5+ years of experience
+                Frontend &amp; Framer developer with 2+ years of experience
                 building modern, responsive, and visually polished websites.
                 Skilled in Framer, React, Next.js, Tailwind CSS, and API
                 integration, with growing experience as a Laravel (PHP)
@@ -195,7 +243,7 @@ export function Folio() {
               </p>
               <p>
                 I translate Figma and design concepts into accurate, responsive,
-                production-ready interfaces � reusable UI components, interactive
+                production-ready interfaces - reusable UI components, interactive
                 sections, animations, and layouts with strong attention to visual
                 consistency. Currently completing a B.Sc. in Computer Science &amp;
                 Engineering at BUBT, and seeking the opportunity to pursue further
@@ -208,15 +256,15 @@ export function Folio() {
               </p>
               <dl className="stats">
                 <div>
-                  <dt>13+</dt>
+                  <Counter value={30} suffix="+" />
                   <dd>Framer templates</dd>
                 </div>
                 <div>
-                  <dt>1.5+</dt>
+                  <Counter value={2} suffix="+" />
                   <dd>Years in practice</dd>
                 </div>
                 <div>
-                  <dt>3</dt>
+                  <Counter value={3} />
                   <dd>Stacks, one workflow</dd>
                 </div>
               </dl>
@@ -224,30 +272,41 @@ export function Folio() {
           </div>
         </section>
 
-        {/* ��� Work ��� */}
+        {/* Work */}
         <section className="section" id="work">
           <div className="section-head reveal">
             <p className="kicker">Selected work</p>
-            <p className="folio">pp. 08�15</p>
+            <p className="folio">pp. 08-15</p>
           </div>
           <ul className="work-list reveal">
-            {PROJECTS.map((project) => (
-              <li key={project.title}>
+            {PROJECTS.map((project, index) => (
+              <li className={index === 0 ? "work-card work-card-featured" : "work-card"} key={project.title}>
                 <a
                   className="work-item"
                   href={project.href}
                   target={project.href.startsWith("http") ? "_blank" : undefined}
                   rel={project.href.startsWith("http") ? "noreferrer" : undefined}
                 >
-                  <span className="work-year">{project.year}</span>
-                  <div>
+                  <div className="work-visual" data-project={index + 1}>
+                    <span className="work-index">0{index + 1}</span>
+                    <span className="work-visual-label">{project.tags[0]}</span>
+                    <span className="work-arrow" aria-hidden="true">↗</span>
+                  </div>
+                  <div className="work-card-body">
+                    <div className="work-card-meta">
+                      <span className="work-year">{project.year}</span>
+                      <span className="work-status">Selected project</span>
+                    </div>
                     <h3 className="work-title">{project.title}</h3>
                     <p className="work-blurb">{project.blurb}</p>
-                  </div>
-                  <div className="work-tags">
-                    {project.tags.map((tag) => (
-                      <span key={tag}>{tag}</span>
-                    ))}
+                    <div className="work-card-footer">
+                      <div className="work-tags">
+                        {project.tags.map((tag) => (
+                          <span key={tag}>{tag}</span>
+                        ))}
+                      </div>
+                      <span className="work-visit">Visit project <span aria-hidden="true">↗</span></span>
+                    </div>
                   </div>
                 </a>
               </li>
@@ -255,13 +314,14 @@ export function Folio() {
           </ul>
           <article className="cover">
             <div className="cover-visual">
-              <span>13+</span>
+              <span>30+</span>
             </div>
             <div className="cover-copy">
               <p className="kicker">Framer templates</p>
-              <h3>Thirteen published templates</h3>
+              <h3>30+ published templates</h3>
               <p>
-                A growing catalogue of Framer sites and templates � Elora, Orkit,
+                A growing catalogue of 30+ Framer sites and templates, including
+                Elora, Orkit,
                 Jared, Kreative Studio, FounderLed, X-Axis, Minibox, Veltrix,
                 Metrix, Be-Tec, Fulfilled Industry, Copilot SaaS, and Primex.
                 Each ships with CMS, reusable sections, and polished interactions.
@@ -270,14 +330,14 @@ export function Folio() {
           </article>
         </section>
 
-        {/* ��� Practice ��� */}
+        {/* Practice */}
         <section className="section" id="practice">
           <div className="section-head reveal">
             <p className="kicker">Practice</p>
-            <p className="folio">pp. 18�19</p>
+            <p className="folio">pp. 18-19</p>
           </div>
           <p className="practice-intro reveal">
-            A short specimen of how I work � not a stack list, a set of
+            A short specimen of how I work - not a stack list, a set of
             disciplines I will actually take into a project.
           </p>
           <div className="specimen reveal">
@@ -285,18 +345,18 @@ export function Folio() {
               <article className="skill" key={skill.title} data-index={skill.index}>
                 <h3>
                   {skill.title}
-                  <span className="mark">�</span>
+                  <span className="mark">+</span>
                 </h3>
                 <p>{skill.copy}</p>
               </article>
             ))}
           </div>
           <p className="tools reveal">
-            Figma � Git � GitHub � REST APIs � Laravel � Tailwind � Pen &amp; paper
+            Figma - Git - GitHub - REST APIs - Laravel - Tailwind - Pen &amp; paper
           </p>
         </section>
 
-        {/* ��� Contact ��� */}
+        {/* Contact */}
         <section className="section contact" id="contact">
           <div className="section-head">
             <p className="kicker">Correspondence</p>
@@ -311,7 +371,7 @@ export function Folio() {
               </h2>
               <p className="contact-info-p">
                 Open to freelance frontend, Framer template, and Laravel work.
-                If you have a project that needs a clean, responsive interface �
+                If you have a project that needs a clean, responsive interface -
                 send a note.
               </p>
               <ul className="channels">
@@ -344,7 +404,7 @@ export function Folio() {
 
             {sent ? (
               <p className="form-note">
-                Received � I will reply within a few working days. Thank you for
+                Received - I will reply within a few working days. Thank you for
                 writing.
               </p>
             ) : (
@@ -368,7 +428,7 @@ export function Folio() {
             )}
           </div>
           <footer className="colophon">
-            <span>� 2026 Ridoy Mojumder</span>
+            <span>- 2026 Ridoy Mojumder</span>
             <span>Dhaka, Bangladesh</span>
             <span>Printed on screen</span>
           </footer>

@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import { Bodoni_Moda, Source_Serif_4, IBM_Plex_Sans } from "next/font/google";
-// @ts-expect-error The global stylesheet is provided by the Next.js app runtime.
 import "./globals.css";
 
 const display = Bodoni_Moda({

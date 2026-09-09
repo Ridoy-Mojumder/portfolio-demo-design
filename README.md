@@ -1,8 +1,8 @@
-# Alex Chen — one-page folio
+# Ridoy Mojumder - one-page folio
 
 A Next.js (App Router) designer portfolio. Every section lives on a single scroll: cover, about, selected work, practice, and correspondence. The left rail is a magazine spine.
 
-Placeholder identity is **Alex Chen**, product designer, San Francisco. Swap the copy in `components/Folio.tsx` for your own.
+Ridoy Mojumder's frontend, Framer, and Laravel portfolio. The site presents selected client and personal projects, 30+ Framer templates, and contact details in an editorial one-page format.
 
 ## Run it
 
@@ -19,9 +19,9 @@ npm run build
 npm start
 ```
 
-## Replace with your details
+## Update the portfolio
 
-Edit `components/Folio.tsx` for name, projects, skills, and contact. Update the title in `app/layout.tsx`. The red seal initials (`AC`) sit in the spine.
+Edit `components/Folio.tsx` for name, projects, skills, experience, and contact. Update the title and description in `app/layout.tsx`. Replace `public/portrait.jpg` to update the portrait. The red seal initials (`RM`) sit in the spine.
 
 ## Stack
 
